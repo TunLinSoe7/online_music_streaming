@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/pages/play_list.dart';
+import 'package:music_app/data/vos/song_vo.dart';
+import 'package:music_app/pages/play_list_page.dart';
 import 'package:music_app/pages/favourite_page.dart';
 import 'package:music_app/utils/constants/colors.dart';
 
 class LibraryPage extends StatelessWidget {
-  const LibraryPage({super.key});
+  const LibraryPage({super.key, required this.song});
+  final SongVO song;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +36,13 @@ class LibraryPage extends StatelessWidget {
                 labelColor: kPrimaryColor,
                   tabs: const [
                     Tab(text: 'Favourites',),
-                    Tab(text: 'Albums',),
+                    Tab(text: 'PlayLists',),
                   ]),
             ),
-            const Expanded(
+             Expanded(
               child: TabBarView(children: [
                 FavouritePage(),
-                PlayListPage(),
+                PlayListPage(song: song),
               ]),
             ),
           ],

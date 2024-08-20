@@ -13,6 +13,7 @@ SongVO _$SongVOFromJson(Map<String, dynamic> json) => SongVO(
       duration: (json['duration'] as num?)?.toDouble(),
       fileUrl: json['fileUrl'] as String?,
       coverUrl: json['coverUrl'] as String?,
+      createdAt: SongVO._fromTimestamp(json['created_at'] as Timestamp?),
     );
 
 Map<String, dynamic> _$SongVOToJson(SongVO instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$SongVOToJson(SongVO instance) => <String, dynamic>{
       'duration': instance.duration,
       'fileUrl': instance.fileUrl,
       'coverUrl': instance.coverUrl,
+      'created_at': SongVO._toTimestamp(instance.createdAt),
     };

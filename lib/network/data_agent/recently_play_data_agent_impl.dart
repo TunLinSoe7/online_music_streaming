@@ -11,7 +11,7 @@ class RecentlyPlayDataAgentImpl extends RecentlyPlayDataAgent{
 
   @override
   Stream<List<SongVO>?> getRecentlySongList() =>_itemCollection.
-      orderBy('timestamp',descending: true).
+      orderBy('created_at',descending: true).
   snapshots()
       .map((event){
         return event.docs.map((document) {
@@ -24,13 +24,13 @@ class RecentlyPlayDataAgentImpl extends RecentlyPlayDataAgent{
       // Add new song if ID is not provided
       await _itemCollection.add({
         ...songVO.toJson(),
-        'timestamp': FieldValue.serverTimestamp(), // Set the timestamp
+        'created_at': FieldValue.serverTimestamp(), // Set the timestamp
       });
     } else {
       // Update existing song if ID is provided
       await _itemCollection.doc(songVO.id).set({
         ...songVO.toJson(),
-        'timestamp': FieldValue.serverTimestamp(), // Update the timestamp
+        'created_at': FieldValue.serverTimestamp(), // Update the timestamp
       });
     }
   }

@@ -1,6 +1,5 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:music_app/controllers/home_page_controller.dart';
@@ -85,8 +84,9 @@ class PopularPlaylistWidget extends StatelessWidget {
                 color: Colors.grey.shade200,
                 tag: '${provider.songs?[index].coverUrl}',
                 onTap: (){
+                  provider.setPlaylist(provider.songs ?? []);
                   provider.playSong(index);
-                  navigateToScreen(const AudioPlayPage(), context);
+                  navigateToScreen( AudioPlayPage(), context);
                   provider.saveRecentlySong(provider.songs?[index] ?? SongVO());
                 },
                 imageUrl: '${provider.songs?[index].coverUrl}', title: '${provider.songs?[index].title}', artistName: '${provider.songs?[index].artist}',);

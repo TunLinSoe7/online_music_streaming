@@ -6,9 +6,10 @@ import 'package:music_app/controllers/home_page_controller.dart';
 import 'package:music_app/firebase_options.dart';
 import 'package:music_app/navigation_menu.dart';
 import 'package:get/get.dart';
-import 'package:music_app/utils/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+
+import 'controllers/play_list_provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ void main() async{
             //ChangeNotifierProvider(create: (_) => ThemeProvider()),
             ChangeNotifierProvider(create: (_) => HomePageProvider()),
             ChangeNotifierProvider(create: (_) => FavouriteProvider()),
+            ChangeNotifierProvider(create: (_) => PlaylistProvider()),
           ],
       child: const MyApp()));
 }

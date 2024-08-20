@@ -1,12 +1,12 @@
 import 'dart:ui';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/controllers/favourite_provider.dart';
 import 'package:music_app/data/vos/song_vo.dart';
+import 'package:music_app/pages/library_page.dart';
+import 'package:music_app/utils/helper_functions/helper_functions.dart';
 import 'package:provider/provider.dart';
 import '../controllers/home_page_controller.dart';
 
@@ -18,7 +18,10 @@ class AudioPlayPage extends StatelessWidget {
     return Scaffold(
       body: Consumer2<HomePageProvider,FavouriteProvider>(
         builder: (_, homePageProvider,favouriteProvider, __) {
-          final value = homePageProvider.songs?[homePageProvider.currentIndex];
+          final songIndex = homePageProvider.currentIndex;
+          final song = homePageProvider.currentPlayList!.isNotEmpty
+              ? homePageProvider.currentPlayList![songIndex]
+              : null;
           return Stack(
             children: [
               SizedBox(
@@ -27,7 +30,7 @@ class AudioPlayPage extends StatelessWidget {
                 child: ImageFiltered(
                   imageFilter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
                   child: CachedNetworkImage(
-                    imageUrl: '${value?.coverUrl}',
+                    imageUrl: '${song?.coverUrl}',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,9 +43,9 @@ class AudioPlayPage extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Hero(
-                        tag: '${value?.coverUrl}',
+                        tag: '${song?.coverUrl}',
                         child: CachedNetworkImage(
-                          imageUrl: '${value?.coverUrl}',
+                          imageUrl: '${song?.coverUrl}',
                            width: 250,
                            height: 250,
                           fit: BoxFit.cover,
@@ -51,7 +54,7 @@ class AudioPlayPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20,),
-                  Text(value?.title ?? '',style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  Text(song?.title ?? '',style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Colors.white,
                     fontSize: 25
                   ),),
@@ -98,7 +101,10 @@ class AudioPlayPage extends StatelessWidget {
                           size: 30,
                         ),
                       ),
-
+                      /// icon for to add playlist or remove playlist
+                      IconButton(onPressed: (){
+                        navigateToScreen(LibraryPage(song: song ?? SongVO()), context);
+                      }, icon: const Icon(Icons.playlist_add,color: Colors.white,)),
                     ],
                   ),
                 ],
@@ -117,9 +123,9 @@ class AudioPlayPage extends StatelessWidget {
                   right: 15,
                   child: InkWell(
                       onTap: (){
-                        favouriteProvider.toggleFavourite(value ?? SongVO());
+                        favouriteProvider.toggleFavourite(song ?? SongVO());
                       },
-                      child: Icon(Icons.favorite,color: favouriteProvider.isSongFavourite(value?.id ?? '')?Colors.red:Colors.white,size: 30,))),
+                      child: Icon(Icons.favorite,color: favouriteProvider.isSongFavourite(song?.id ?? '')?Colors.red:Colors.white,size: 30,))),
             ],
           );
         },

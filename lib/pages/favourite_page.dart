@@ -22,9 +22,9 @@ class FavouritePage extends StatelessWidget {
                   final favorites = provider.favouriteSongs?[index];
                   return ListTile(
                     onTap: (){
-                      homeProvider.setPlaylist(true, provider.favouriteSongs!);
+                      homeProvider.setPlaylist(provider.favouriteSongs!);
                       homeProvider.playSong(index);
-                      navigateToScreen(const AudioPlayPage(), context);
+                      navigateToScreen(AudioPlayPage(), context);
                     },
                     leading: CircleAvatar(
                       backgroundColor: getRandomColor(),
